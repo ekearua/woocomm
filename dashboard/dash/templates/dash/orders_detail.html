@@ -1,0 +1,25 @@
+{% extends 'dash/dash_base.html' %}
+
+{% block content %}
+<div class="p-5 bg-light">
+    <div class="container">
+        <h5 class="display-3">Order Details</h5>
+        <p class='lead'>Order Id:&nbsp{{orders.order_id}}</p>
+        <p class="lead">Customer Name:&nbsp{{orders.order_first_name}} {{orders.order_last_name}} </p>
+        <p class="lead">Date Created:&nbsp{{orders.order_date_created}}</p>
+        <p class="lead">Product Ordered:&nbsp{{orders.order_product}}</p>
+        <p class="lead">Product Quantity:&nbsp{{orders.order_product_quantity}}</p>
+        <p class="lead">Order Amount:&nbsp{{orders.order_amount}}</p>
+        <p class="lead">Payment Method:&nbsp{{orders.order_payment_method}}</p>
+        <p class="lead">Payment Confirmation:&nbsp{{orders.order_payment_confirmation}}</p>
+        <p class="lead">Order Status: &nbsp{{orders.order_status}}</p>
+        
+        
+        <hr class="my-2">
+        
+        <p class="lead">
+            <a class="btn btn-primary btn-sm" href="{% url 'orders:update' pk=orders.pk%}" role="button">Update</a>
+        </p>
+    </div>
+</div>
+{% endblock content %}

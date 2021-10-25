@@ -1,0 +1,42 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12"> 
+            <table class="table table-hover table-bordered table-striped table-sm">
+                <thead class="table-dark">
+                    <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Date Ordered</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Payment Type</th>
+                    <th scope="col">Payment Confirmation</th>
+                    <th scope="col">Delivery Type</th>
+                    <th scope="col">Status</th>                    
+                    <tr>
+                </thead>
+                {% for order in object_list %} 
+                {% if order.order_status == 'on-hold' or order.order_status == 'processing' %}       
+                                       
+                <tbody>          
+                    <tr style="transform: rotate(0);">            
+                    <td><a class="stretched-link" href = {% url 'orders:single' pk=order.pk%}>{{order.order_id}}</a></td>
+                    <td>{{order.order_first_name}}</td>
+                    <td>{{order.order_last_name}}</td>
+                    <td>{{order.order_date_created}}</td>
+                    <td>{{order.order_product}}</td>
+                    <td>{{order.order_product_quantity}}</td>            
+                    <td>{{order.order_amount}}</td>
+                    <td>{{order.order_payment_method}}</td>
+                    <td>{{order.order_payment_confirmation}}</td>
+                    <td>{{order.order_delivery_type}}</td>
+                    <td>{{order.order_status}}</td>                    
+                    </tr>                                   
+                </tbody>       
+                {% endif %}  
+                {% endfor %}
+            </table>
+            
