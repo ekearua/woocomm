@@ -8,7 +8,7 @@ from woocommerce import API
 from django.views.decorators.csrf import csrf_exempt
 from pytz import timezone
 from datetime import datetime
-from django.contrib.auth import  get_user_model
+# from django.contrib.auth import get_user_model
 
 # Create your views here.
 class OrderList(generic.ListView):
@@ -25,8 +25,8 @@ class OrderDetail(generic.DetailView):
 
 class OrderUpdate(UpdateView):
     model = Orders
-    User = get_user_model()
-    fields = ['order_status']
+    # User = get_user_model()
+    fields = ['order_status','user']
     
     def form_valid(self,form):        
         if form.is_valid():
@@ -97,7 +97,8 @@ class UpdateDB(CreateView):
             order_payment_method = order[12],
             order_status = order[13],
             order_payment_confirmation= False,
-            order_delivery_type = order[14][0]['method_title']))
+            order_delivery_type = order[14][0]['method_title']
+            ))
             for order in order_list]
         
             if new_num > 1:

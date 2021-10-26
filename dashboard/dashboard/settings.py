@@ -22,22 +22,21 @@ BASE_FOLDER = Path(__file__).parent.parent.parent.absolute()
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open(Path(BASE_FOLDER, 'creed/testestes.txt')) as f:
-    SECRET_KEY = f.read().strip()
-# SECRET_KEY = 'django-insecure-4(2q&f=7bl78bk5q9t2jd^%01=4ijaiape$=f$6$8_jg2d^59-'
+# with open(Path(BASE_FOLDER, 'creed/testestes.txt')) as f:
+#     SECRET_KEY = f.read().strip()
+SECRET_KEY = 'django-insecure-4(2q&f=7bl78bk5q9t2jd^%01=4ijaiape$=f$6$8_jg2d^59-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    '1b34-41-184-51-147.ngrok.io',
-    '127.0.0.1'
+    
 ]
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 10
-SECURE_HSTS_PRELOAD = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
+SECURE_HSTS_SECONDS = 99999999999999999
+SECURE_HSTS_PRELOAD = False
 
 # Application definition
 
@@ -91,8 +90,12 @@ WSGI_APPLICATION = 'dashboard.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':  BASE_DIR / 'db.sqlite3'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME':  'waraqata',
+        'USER': 'postgres',
+        'PASSWORD': 'testpassword',
+        'HOST': 'localhost',
+        'PORT': ''
     }
 }
 

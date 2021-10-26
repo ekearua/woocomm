@@ -1,8 +1,12 @@
 from django.db import models
 from django.conf import settings
+
 from phonenumber_field.modelfields import PhoneNumberField
 from pytz import timezone
+from datetime import datetime
 from django.urls import reverse
+from .helper_db import order_list
+
 
 # Create your models here.
 
@@ -36,7 +40,7 @@ class Orders(models.Model):
     order_payment_method = models.CharField(max_length=50)
     order_delivery_type = models.CharField(max_length=50)
     order_status = models.CharField(max_length=50,choices=order_choices)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,default='User')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True,blank=True)
 
     class Meta:
         ordering = ["-order_id"]
@@ -50,15 +54,15 @@ class Orders(models.Model):
         super(Orders, self).save(*args,**kwargs)
     
     def __str__(self):
-        return str(self.order_id)
+        return self.order_id
     
     def get_absolute_url(self):
         return reverse("orders:all")
 
-# [(Orders.save(order)) for order in Orders.objects.all()]
+[(Orders.save(order)) for order in Orders.objects.all()]
 
 lagos = timezone('Africa/Lagos')
-      
+   
 # obj = [
 #     (Orders(
 #         order_id = order[0], 
@@ -76,7 +80,8 @@ lagos = timezone('Africa/Lagos')
 #         order_payment_method = order[12],
 #         order_status = order[13],
 #         order_payment_confirmation= False,
-#         order_delivery_type = order[15]))
+#         order_delivery_type = order[15]
+#         ))
 #         for order in order_list]
 
 # msg = Orders.objects.bulk_create(obj)
