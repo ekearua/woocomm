@@ -39,7 +39,7 @@ class Orders(models.Model):
     order_product_price = models.PositiveSmallIntegerField()
     order_payment_method = models.CharField(max_length=50)
     order_delivery_type = models.CharField(max_length=50)
-    order_delivery_date = models.CharField(max_length=50)
+    order_delivery_date = models.CharField(max_length=255)
     order_status = models.CharField(max_length=50,choices=order_choices)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True,blank=True)
     lat = models.DecimalField(max_digits=10,decimal_places=6,default=0)
@@ -89,8 +89,8 @@ obj = [
         order_payment_method = order[12],
         order_status = order[13],
         order_payment_confirmation= False,
-        order_delivery_type = order[15],
-        order_delivery_date = order[16]
+        order_delivery_type = order[16],
+        order_delivery_date = order[17]
         ))
         for order in order_list]
 

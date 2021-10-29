@@ -30,9 +30,12 @@ order_ship= [order[0]['method_title'] if len(order)==1 else 'No Delivery Informa
 for i in range(len(order_ship)):
     order_list[i].append(order_ship[i])
 order_ship2 = [order[2]['value'] if len(order)>2 else 'No Delivery Date' for order in order_ship2]
+order_ship2 = [order if type(order) is str else 'No Delivery Date' for order in order_ship2]
+# print(order_ship2)
 for i in range(len(order_ship2)):
     order_list[i].append(order_ship2[i])
-# print(order_list)
+# order_list
+# print(len(order_list[0]))
 # print(order_ship2)
 # print(order_ship[55][0]['method_title'])
 
