@@ -15,6 +15,9 @@
                     <th scope="col">Payment Type</th>
                     <th scope="col">Payment Confirmation</th>
                     <th scope="col">Delivery Type</th>
+                    <th scope="col">Delivery Date</th>
+                    <th scope="col">Coordinates</th>
+                    <th scope="col">Last Edited By</th>
                     <th scope="col">Status</th>                    
                     <tr>
                 </thead>
@@ -33,6 +36,9 @@
                     <td>{{order.order_payment_method}}</td>
                     <td>{{order.order_payment_confirmation}}</td>
                     <td>{{order.order_delivery_type}}</td>
+                    <td>{{order.order_delivery_date}}</td>
+                    <td>({{order.lat}},{{order.lon}})</td>
+                    <td>{{order.user}}</td>
                     <td>{{order.order_status}}</td>                    
                     </tr>                                   
                 </tbody>       

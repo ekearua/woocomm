@@ -12,7 +12,7 @@ class Operator(AbstractUser):
         delivery_user = 'Delivery',_('Delivery')
         admin = 'Admin',_('Admin')
 
-    role = models.CharField(max_length=50,choices=RoleType.choices,default='Processing')
+    role = models.CharField(max_length=50,choices=RoleType.choices,default='Not Set')
 
     def __str__(self):
         return self.username
