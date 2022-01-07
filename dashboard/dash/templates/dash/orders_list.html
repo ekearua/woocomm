@@ -2,80 +2,92 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-{% if user.role == 'Admin'  %}
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12"> 
-            <table class="table table-hover table-bordered table-striped table-sm">
-                <thead class="table-dark">
-                    <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Date Ordered</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Payment Type</th>
-                    <th scope="col">Payment Confirmation</th>
-                    <th scope="col">Delivery Type</th>
-                    <th scope="col">Delivery Date</th>
-                    <th scope="col">Coordinates</th>
-                    <th scope="col">Last Edited By</th>
-                    <th scope="col">Status</th>                    
-                    <tr>
-                </thead>
-                {% for order in object_list %}                         
-                <tbody>          
-                    <tr style="transform: rotate(0);">            
-                    <td><a class="stretched-link" href = {% url 'orders:single' pk=order.pk%}>{{order.order_id}}</a></td>
-                    <td>{{order.order_first_name}}</td>
-                    <td>{{order.order_last_name}}</td>
-                    <td>{{order.order_date_created}}</td>
-                    <td>{{order.order_product}}</td>
-                    <td>{{order.order_product_quantity}}</td>            
-                    <td>{{order.order_amount}}</td>
-                    <td>{{order.order_payment_method}}</td>
-                    <td>{{order.order_payment_confirmation}}</td>
-                    <td>{{order.order_delivery_type}}</td>
-                    <td>{{order.order_delivery_date}}</td>
-                    <td>({{order.lat}},{{order.lon}})</td>
-                    <td>{{order.user}}</td>
-                    <td>{{order.order_status}}</td> 
-                    
-                    </tr>                                   
-                </tbody>        
-                {% endfor %}
-            </table>
-        </div>                         
+{% if user.role == 'Admin' or user.role == 'Shop Manager' or user.role == 'Customer Advocacy' %}
+<div class="container-fluid">
+    <table class="table table-hover table-bordered table-striped table-sm">
+        <thead class="table-dark">
+            <tr>
+            <th scope="col">Order ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+	    <th scope="col">Phone</th>
+	    <th scope="col">Email</th>
+            <th scope="col">Date Ordered</th>
+            <th scope="col">Product</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Payment Type</th>
+            <th scope="col">Delivery Type</th>
+            <th scope="col">Coordinates</th>
+            <th scope="col">Last Edited By</th>
+            <th scope="col">Status</th>                    
+            </tr>
+        </thead>
+        {% for order in object_list %}                         
+        <tbody>          
+            <tr style="transform: rotate(0);">            
+            <td><a class="stretched-link btn" href = {% url 'orders:single' pk=order.pk%}>{{order.order_id}}</a></td>
+            <td>{{order.order_first_name}}</td>
+            <td>{{order.order_last_name}}</td>
+	    <td>{{order.order_phone}}</td>
+	    <td>{{order.order_email}}</td>
+            <td>{{order.order_date_created}}</td>
+            <td>{{order.order_product}}</td>
+            <td>{{order.order_product_quantity}}</td>            
+            <td>{{order.order_amount}}</td>
+            <td>{{order.order_payment_method}}</td>
+            <td>{{order.order_delivery_type}}</td>
+            <td>({{order.lat}},{{order.lon}})</td>
+            <td>{{order.user}}</td>
+            <td>{{order.order_status}}</td>                    
+            </tr>                                   
+            </tbody>        
+            {% endfor %}
+        </table>
+</div>                      
         
-        {% comment %} {% else %}
+{% endif %}
+{% endif %}
+{% if user.role == "Not Set" %}
         <div class="p-5 bg-light">
             <div class="container">
-                <h1 class="display-3">Please Log in to view page</h1>
-                {% comment %} <p class="lead">Jumbo helper text</p>
-                <hr class="my-2">
-                <p>More info</p>
+                <h1 class="display-3">Admin is yet to enable this account</h1>
                 <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="Jumbo action link" role="button">Jumbo action name</a>
-                </p> {% endcomment %}
+                    <a class="btn btn-primary btn-lg" href="{% url 'homepage' %}" role="button">Home</a>
+                </p>
             </div>
-        </div>         
-    </div>    
-</div>
-{% endif %}
-{% endif %}
+        </div>
+        {% endif %}
+
 {% if user.role == 'Accounts' %}
 {% include 'dash/orders_acc.html' %}
 {% endif %}
 
-{% if user.role == 'Processing' %}
+{% if user.role == 'Packaging' %}
 {% include 'dash/orders_processing.html' %}
 {% endif %}
 
 {% if user.role == 'Delivery' %}
 {% include 'dash/orders_delivery.html' %}
 {% endif %}
+
+
+<script>
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/orders/'
+    );
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+    
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        window.location.reload()       
+    }
+</script>
 
 {% endblock content%}
 

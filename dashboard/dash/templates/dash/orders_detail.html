@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="p-5 bg-light">
-    <div class="container">
+    <div class="container-fluid">
         <h5 class="display-3">Order Details</h5>
         <p class='lead'>Order Id:&nbsp{{orders.order_id}}</p>
         <p class="lead">Customer Name:&nbsp{{orders.order_first_name}} {{orders.order_last_name}} </p>
@@ -15,10 +15,28 @@
         <p class="lead">Order Status: &nbsp{{orders.order_status}}</p>
         
         
-        <hr class="my-2">
-        
+        <hr class="my-2">        
         <p class="lead">
-            <a class="btn btn-primary btn-sm" href="{% url 'orders:update' pk=orders.pk%}" role="button">Update</a>
+            {% if user.role == 'Accounts' and orders.order_status != 'Cancelled' and orders.order_status != 'Refunded' %}
+                <a class="btn btn-warning btn-sm" href="{% url 'orders:acc_order' pk=orders.pk%}" role="button">Update</a>
+                <a class="btn btn-primary btn-sm" href="https://google.com/search?q={{orders.lat}},{{orders.lon}}" role="button" target="_blank" rel="noopener">Verify Location</a>
+            {% endif %}
+            {% if user.role == 'Shop Manager' %}
+                <a class="btn btn-warning btn-sm" href="{% url 'orders:shop_admin' pk=orders.pk%}" role="button">Update</a>
+                <a class="btn btn-primary btn-sm" href="https://google.com/search?q={{orders.lat}},{{orders.lon}}" role="button" target="_blank" rel="noopener">Verify Location</a>
+            {% endif %}
+            {% if user.role == 'Delivery' and orders.order_status != 'Cancelled' and orders.order_status != 'Refunded' %}
+                <a class="btn btn-warning btn-sm" href="{% url 'orders:del_order' pk=orders.pk%}" role="button">Update</a>
+                <a class="btn btn-primary btn-sm" href="https://google.com/search?q={{orders.lat}},{{orders.lon}}" role="button" target="_blank" rel="noopener">Verify Location</a>
+            {% endif %}
+            {% if user.role == 'Packaging' and orders.order_status != 'Cancelled' and orders.order_status != 'Refunded' %}
+                <a class="btn btn-warning btn-sm" href="{% url 'orders:pack_order' pk=orders.pk%}" role="button">Update</a>
+                <a class="btn btn-primary btn-sm" href="https://google.com/search?q={{orders.lat}},{{orders.lon}}" role="button" target="_blank" rel="noopener">Verify Location</a>
+            {% endif %}     
+            {% if user.role == 'Admin' %}
+                <a class="btn btn-warning btn-sm" href="{% url 'orders:update' pk=orders.pk%}" role="button">Update</a>
+                <a class="btn btn-primary btn-sm" href="https://google.com/search?q={{orders.lat}},{{orders.lon}}" role="button" target="_blank" rel="noopener">Verify Location</a>
+            {% endif %}
         </p>
     </div>
 </div>
