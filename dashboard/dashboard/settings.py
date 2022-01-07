@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,25 +23,24 @@ BASE_FOLDER = Path(__file__).parent.parent.parent.absolute()
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# with open(Path(BASE_FOLDER, 'creed/testestes.txt')) as f:
-#     SECRET_KEY = f.read().strip()
-SECRET_KEY = 'django-insecure-4(2q&f=7bl78bk5q9t2jd^%01=4ijaiape$=f$6$8_jg2d^59-'
+with open(Path(BASE_FOLDER, 'creed/testestes.txt')) as f:
+     SECRET_KEY = f.read().strip()
+#SECRET_KEY = 'django-insecure-4(2q&f=7bl78bk5q9t2jd^%01=4ijaiape$=f$6$8_jg2d^59-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    
-]
-CSRF_COOKIE_SECURE = False
-SESSION_COOKIE_SECURE = False
+ALLOWED_HOSTS = ['3.22.151.22','watershedcorporation.com','www.watershedcorporation.com','localhost']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 SECURE_SSL_REDIRECT = False
-SECURE_HSTS_SECONDS = 99999999999999999
+SECURE_HSTS_SECONDS = 10
 SECURE_HSTS_PRELOAD = False
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +51,10 @@ INSTALLED_APPS = [
     'accounts',
     'bootstrap5',
     'phonenumber_field',
-    'dash'
+    'dash',
+    'carts',
+    'products',
+    'schedule',
 ]
 
 MIDDLEWARE = [
@@ -83,7 +86,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'dashboard.wsgi.application'
-
+ASGI_APPLICATION = 'dashboard.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -91,22 +94,30 @@ WSGI_APPLICATION = 'dashboard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  'waraqata',
-        'USER': 'postgres',
-        'PASSWORD': 'testpassword',
+        'NAME':  'waraqata_f',
+        'USER': 'eke2',
+        'PASSWORD': 'eke.shed1259@#',
         'HOST': 'localhost',
         'PORT': ''
     }
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    #{
+        #'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    #},
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
@@ -143,12 +154,20 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     Path(BASE_DIR, 'static')
 ]
+
+STATIC_ROOT = "var/www/dashboard/static/"
 
 LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'thanks'
 
 AUTH_USER_MODEL = 'accounts.Operator'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.domain.com'
+EMAIL_HOST_USER ='care@waraqata.com'
+EMAIL_HOST_PASSWORD = '@Waraqata1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'care@waraqata.com'

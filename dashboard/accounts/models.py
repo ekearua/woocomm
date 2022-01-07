@@ -7,10 +7,12 @@ class Operator(AbstractUser):
 
     class RoleType(models.TextChoices):
         account_user = 'Accounts',_('Accounts')
-        processing_user = 'Processing',_('Processing')
+        shop_manager = 'Shop Manager',_('Shop Manager')
         packaging_user = 'Packaging',_('Packaging')
         delivery_user = 'Delivery',_('Delivery')
         admin = 'Admin',_('Admin')
+        not_set = 'Not Set',_('Unverified User'),
+        customer_advocacy = 'Customer Advocacy',_('Customer Advocacy')
 
     role = models.CharField(max_length=50,choices=RoleType.choices,default='Not Set')
 
